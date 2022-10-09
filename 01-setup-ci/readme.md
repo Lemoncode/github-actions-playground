@@ -183,3 +183,35 @@ git add .
 git commit -m "added build test step"
 git push
 ```
+
+We can check the results in actions. For last, because we're going to add more projects to current solution, seems a good idea that the workflow only starts if the contents of api solution are updated.
+
+
+* Update `ci.yml`
+
+```diff
+name: CI 
+
+on:
+  push:
+    branches: [ main ]
++   paths: [ hangman-api/** ]
+  pull_request:
+    branches: [ main ]
++   paths: [ hangman-api/** ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: build and test
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm run build --if-present
+          ls ./dist
+          npm test
+
+```

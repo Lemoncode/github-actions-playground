@@ -110,3 +110,61 @@ git push
 ```
 
 And trigger from project site
+
+If we check the workflow, we will notice that is taking a long time to resolve the dependencies upload. This is not the way to manage this, let's try something different.
+
+* [Caching dependencies to speed up workflows](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)
+
+* [Caching global packages data](https://github.com/actions/setup-node#caching-global-packages-data)
+
+```diff
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
++     - uses: actions/setup-node@v3
++       with: 
++         node-version: 16
++         cache: 'npm'
+      - name: build
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm run build --if-present
+-     - uses: actions/upload-artifact@v3
+-       with: 
+-         name: dependencies
+-         path: hangman-api/node_modules/
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps: 
+      - uses: actions/checkout@v3
+-     - uses: actions/download-artifact@v3.0.0
+-       with: 
+-         name: dependencies
+-         path: hangman-api/node_modules
++     - uses: actions/setup-node@v3
++       with:
++         node-version: 16
+      - name: test
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm test
+```
+
+```yml
+steps:
+- uses: actions/checkout@v3
+- uses: actions/setup-node@v3
+  with:
+    node-version: 16
+    cache: 'npm'
+- run: npm ci
+- run: npm test
+```

@@ -215,3 +215,5 @@ jobs:
           npm test
 
 ```
+
+* With `paths` we filter the directories that are able to trigger a new workflow.

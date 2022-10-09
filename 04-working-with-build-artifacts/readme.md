@@ -128,6 +128,7 @@ jobs:
 +       with: 
 +         node-version: 16
 +         cache: 'npm'
++         cache-dependency-path: hangman-api/package-lock.json
       - name: build
         working-directory: ./hangman-api
         run: |

@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 
+// TODO: Use connection string
 config({
   path: '.env',
 });

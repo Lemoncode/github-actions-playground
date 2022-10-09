@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "jest --clearCache",
+    "test": "jest --config=jest.config.specification.js -i",
     "pretest:integration": "jest --clearCache",
     "test:integration": "jest --detectOpenHandles --config=jest.config.integration.js -i"
   },

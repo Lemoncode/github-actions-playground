@@ -16,9 +16,9 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
+  await db.from('games').delete();
   await db.from('players').delete();
   await db.from('words').delete();
-  await db.from('games').delete();
 });
 
 describe('game.dal', () => {

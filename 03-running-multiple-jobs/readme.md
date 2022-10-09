@@ -135,4 +135,31 @@ git push
 });
 ```
 
-And create a new pull request
+And create a new pull request and recall to push the changes with the broken test:
+
+```bash
+git add .
+git commit -m "added broken test"
+git push
+```
+
+Now if we visit, the pull request page, we can check that the test job has failed and we can navigate to the details. And we can check the exact line where the test has failed lets fixed:
+
+* Update `hangman-api/src/services/word-provider.service.spec.ts`:
+
+```diff
+    .......
+    // Act
+    const selectedWord = selectWord();
+-   expect(true).toBe(false);
+    expect(selectedWord.categoryIndex).toBeLessThanOrEqual(categoryLength - 1);
+    expect(selectedWord.wordIndex).toBeLessThanOrEqual(categories[selectedWord.categoryIndex].words.length - 1);
+  });
+});
+```
+
+```bash
+git add .
+git commit -m "fixed broken test"
+git push
+```

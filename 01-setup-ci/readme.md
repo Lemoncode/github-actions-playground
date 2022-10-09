@@ -20,6 +20,16 @@ on:
   pull_request:
     branches: [ main ]
 
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          ls -al
+          whoami
+          pwd
+
 ```
 
 Let's commit this file to a new branch:

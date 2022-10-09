@@ -29,6 +29,7 @@ jobs:
           ls -al
           whoami
           pwd
+          node -v
 
 ```
 

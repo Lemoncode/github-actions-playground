@@ -27,3 +27,86 @@ git add .
 git commit -m "set up manual dispatch"
 git push
 ```
+
+Now if we visit the `Actions` tab and select `CI`, we have and option to run it manually. That's perfect for us, right now, when we get the results that we want, we will back and change it again.
+
+To work with artifacts, we're going to use [Upload Build Artifact](https://github.com/marketplace/actions/upload-a-build-artifact)
+
+* Update `ci.yml`
+
+```yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm run build --if-present
+      # diff #
+      - uses: actions/upload-artifact@v3
+        with: 
+          name: dependencies
+          path: hangman-api/node_modules/
+      # diff #
+```
+
+We're creating an artifact `dependencies`, and we're grabbing the content for this artifact from `node_modules`
+
+Now we need the simmetric operation [Download a Build Artifact](https://github.com/marketplace/actions/download-a-build-artifact)
+
+
+* Update `ci.yml`
+
+```yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm run build --if-present
+      - uses: actions/upload-artifact@v3
+        with: 
+          name: dependencies
+          path: hangman-api/node_modules/
+
+  test:
+    runs-on: ubuntu-latest
+    # diff #
+    needs: build
+    # diff #
+    
+    steps: 
+      - uses: actions/checkout@v3
+      # diff #
+      - uses: actions/download-artifact@v3.0.0
+        with: 
+          name: dependencies
+          path: hangman-api/node_modules
+      # diff #
+      - name: test
+        working-directory: ./hangman-api
+        run: |
+          npm ci 
+          npm test
+```
+
+* We have added `needs: build`, since this job depends now on the artifact generated on build job.
+
+Lets try it 
+
+```bash
+git add .
+git commit -m "added artifacts"
+git push
+```
+
+And trigger from project site

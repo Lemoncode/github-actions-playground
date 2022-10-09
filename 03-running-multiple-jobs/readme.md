@@ -121,3 +121,18 @@ git add .
 git commit -m "added new job"
 git push
 ```
+
+* Let's update `hangman-api/src/services/word-provider.service.spec.ts` and breake the test:
+
+```diff
+    .......
+    // Act
+    const selectedWord = selectWord();
++   expect(true).toBe(false);
+    expect(selectedWord.categoryIndex).toBeLessThanOrEqual(categoryLength - 1);
+    expect(selectedWord.wordIndex).toBeLessThanOrEqual(categories[selectedWord.categoryIndex].words.length - 1);
+  });
+});
+```
+
+And create a new pull request

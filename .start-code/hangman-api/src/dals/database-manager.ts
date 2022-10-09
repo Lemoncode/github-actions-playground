@@ -10,14 +10,15 @@ export const startConnection = () => {
     db = knex({
       client: 'pg',
       connection: {
+        database: database.database,
         host: database.host,
         port: database.port,
         user: database.user,
         password: database.password,
       },
       pool: {
-        min: database.poolMin,
-        max: database.poolMax,
+        min: database.poolMin || 1,
+        max: database.poolMax || 2,
       },
     });
   } catch (error) {
@@ -32,3 +33,5 @@ export const closeConnection = async () => {
     throw error;
   }
 };
+
+export const getDbReference = (): Knex => db;

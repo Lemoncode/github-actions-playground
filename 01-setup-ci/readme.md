@@ -195,10 +195,10 @@ name: CI
 on:
   push:
     branches: [ main ]
-+   paths: [ hangman-api/** ]
++   paths: [ './hangman-api/**' ]
   pull_request:
     branches: [ main ]
-+   paths: [ hangman-api/** ]
++   paths: [ './hangman-api/**' ]
 
 jobs:
   build-test:
@@ -217,3 +217,5 @@ jobs:
 ```
 
 * With `paths` we filter the directories that are able to trigger a new workflow.
+
+> Check the [filter pattern cheat sheet](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) for a better understanding

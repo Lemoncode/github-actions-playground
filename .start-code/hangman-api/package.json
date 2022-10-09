@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
     "pretest": "jest --clearCache",
     "test": "jest --config=jest.config.specification.js -i",
     "pretest:integration": "jest --clearCache",

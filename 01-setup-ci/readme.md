@@ -195,10 +195,10 @@ name: CI
 on:
   push:
     branches: [ main ]
-+   paths: [ './hangman-api/**' ]
++   paths: [ 'hangman-api/**' ]
   pull_request:
     branches: [ main ]
-+   paths: [ './hangman-api/**' ]
++   paths: [ 'hangman-api/**' ]
 
 jobs:
   build-test:

@@ -83,3 +83,35 @@ git commit -m "added matrix"
 git push
 ```
 
+Humm... Seems that our workflow is not running, recall that we have introduce a filter per directory, to make it run, we have two options comment out the filter or add a dummy change, let's go for second:
+
+* Update `hangman-api/src/config.ts`
+
+```diff
+import { config } from 'dotenv';
+
++// TODO: Use connection string
+config({
+  path: '.env',
+});
+
+export default {
+  database: {
+    isActive: process.env.DATA_BASE_ACTIVE,
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: +process.env.DATABASE_PORT!,
+    database: process.env.DATABASE_NAME,
+    poolMin: +process.env.DATABASE_POOL_MIN!,
+    poolMax: +process.env.DATABASE_POOL_MAX!,
+  },
+};
+
+```
+
+```bash
+git add .
+git commit -m "added matrix"
+git push
+```

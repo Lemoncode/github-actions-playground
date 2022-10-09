@@ -112,6 +112,6 @@ export default {
 
 ```bash
 git add .
-git commit -m "added matrix"
+git commit -m "added todo"
 git push
 ```

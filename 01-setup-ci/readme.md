@@ -25,11 +25,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
+      - name: inspect
+        run: |
           ls -al
           whoami
           pwd
           node -v
+
 
 ```
 
@@ -44,3 +46,5 @@ git push
 ```
 
 Now if we move to GitHub web site, we will find a message to create a new pull request. Let's click on `Compare & pull request`. Now click on `Create pull request`.
+
+We can see that a new action starts, and by default is going to check if CI process has succeded before allow us to merge this branch into main branch.

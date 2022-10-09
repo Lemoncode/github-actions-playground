@@ -163,3 +163,14 @@ git add .
 git commit -m "fixed broken test"
 git push
 ```
+
+Check the results on GitHub page and for last merge into main, and delete current branch:
+
+* Merge `fix-test` and delete on portal
+* Delete it locally
+
+```bash
+git checkout main
+git pull 
+git branch -d fix-test
+```

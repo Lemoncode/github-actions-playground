@@ -7,14 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  audit:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      - name: inspect
+      - name: build and test
+        working-directory: ./hangman-api
         run: |
-          ls -al
-          whoami
-          pwd
-          node -v
+          npm ci 
+          npm run build --if-present
+          ls ./dist
+          npm test

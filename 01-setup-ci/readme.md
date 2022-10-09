@@ -29,4 +29,7 @@ git checkout -b added-basic-workflow
 git push -u origin added-basic-workflow
 git add .
 git commit -m "added ci file"
+git push
 ```
+
+Now if we move to GitHub web site, we will find a message to create a new pull request. Let's click on `Compare & pull request`. Lets click on 

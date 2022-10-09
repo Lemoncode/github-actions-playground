@@ -5,3 +5,13 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          ls -al
+          whoami
+          pwd

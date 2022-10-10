@@ -42,4 +42,79 @@ Let's start by adding a new job, that declares a `postgres` database server:
 Now, before running the integration tests, we need to setup the schemas:
 
 ```yml
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+        with:
+        node-version: 16
+    - name: Create database relationships
+        working-directory: ./hangman-api
+        env:
+          DATABASE_PORT: 5432
+          DATABASE_HOST: localhost
+          DATABASE_NAME: hangman_db
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_POOL_MIN: 2
+          DATABASE_POOL_MAX: 10
+        run: |
+          npm ci 
+          npx knex migrate:latest --env development
 ```
+
+* Push new changes
+
+```bash
+git add .
+git commit -m "added database relationships step"
+git push
+```
+
+* Run the workflow manually from GiHub website.
+
+
+If everything goes right we must see and output as follows:
+
+```
+found 0 vulnerabilities
+Using environment: development
+Batch 1 run: 1 migrations
+```
+
+Ok let's rename and add the instructions to run our integration tests:
+
+```diff
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+-     - name: Create database relationships
++     - name: Running integration tests 
+        working-directory: ./hangman-api
+        env:
+          DATABASE_PORT: 5432
+          DATABASE_HOST: localhost
+          DATABASE_NAME: hangman_db
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_POOL_MIN: 2
+          DATABASE_POOL_MAX: 10
+        run: |
+          npm ci 
+          npx knex migrate:latest --env development
++         npm run test:integration
+```
+
+* Push new changes
+
+```bash
+git add .
+git commit -m "added integration test instruction"
+git push
+```
+
+* Run the workflow manually from GiHub website.
+
+
+If everything goes right we must see and output as follows:

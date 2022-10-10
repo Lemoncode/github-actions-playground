@@ -1,0 +1,18 @@
+FROM node:16-buster
+
+WORKDIR /opt/app
+
+COPY ./src ./src
+
+COPY ./package.json ./package.json
+
+COPY ./package-lock.json ./package-lock.json
+
+COPY ./jest.config.integration.js ./jest.config.integration.js
+
+COPY ./tsconfig.json ./tsconfig.json
+
+RUN npm ci 
+
+CMD [ "npm", "run", "test:integration" ]
+# ENTRYPOINT ["/bin/sh","-c","sleep infinity"]

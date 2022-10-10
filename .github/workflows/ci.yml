@@ -26,10 +26,6 @@ jobs:
         run: |
           npm ci 
           npm run build --if-present
-      # - uses: actions/upload-artifact@v3
-      #   with: 
-      #     name: dependencies
-      #     path: hangman-api/node_modules/
 
   test:
     runs-on: ubuntu-latest
@@ -37,10 +33,6 @@ jobs:
 
     steps: 
       - uses: actions/checkout@v3
-      # - uses: actions/download-artifact@v3.0.0
-      #   with: 
-      #     name: dependencies
-      #     path: hangman-api/node_modules
       - uses: actions/setup-node@v3
         with:
           node-version: 16

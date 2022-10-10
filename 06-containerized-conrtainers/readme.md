@@ -117,4 +117,25 @@ git push
 * Run the workflow manually from GiHub website.
 
 
-If everything goes right we must see and output as follows:
+If everything goes right we must see and output like this one:
+
+```bash
+> hangman-api@1.0.0 pretest:integration
+> jest --clearCache
+
+Cleared /tmp/jest_rt
+
+> hangman-api@1.0.0 test:integration
+> jest --detectOpenHandles --config=jest.config.integration.js -i
+
+PASS src/dals/games/game.dal.test.ts
+  game.dal
+    getGames
+      ✓ resturns the games related to a player (148 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        3.519 s
+Ran all test suites.
+```

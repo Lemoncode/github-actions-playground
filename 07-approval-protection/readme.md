@@ -62,17 +62,17 @@ Even though we just pushed up a new branch, we're still on the default main bran
 
 So let's switch to the **team‑workflow branch** on GitHub by clicking on the branch drop‑down button below the Code tab and selecting our **team‑workflow branch**. 
 
-> TODO: Add image 01
+![team workflow switch](assets/01-team-workflow-switch.png)
 
 Now that we're working on our new branch, let's add a new workflow file by navigating to the `.github/workflows` folder and creating a new file called `approval‑workflow.yml`. 
 
 * Create `.github/workflows/approval-workflow.yml`
 
-> TODO: Add image 02
+![approval workflow creation](assets/02-approval-workflow-creation.png)
 
 * Submit the file from GitHub site.
 
-> TODO: Add image 03
+![commit new file](assets/03-commit-new-file.png)
 
 And returning to the Code tab, let's click on the prompt to create the pull request from this branch. 
 
@@ -90,6 +90,8 @@ Notice that although we don't have anything other than a name in our workflow fi
 Since we merged those changes to our main branch and, in our previous workflow, our event triggers are a push to main or a pull request into main, our CI checks will run, which is why we're seeing them here. So this is running exactly as expected.
 
 Workflows can be configured to run by using events from GitHub, such as event webhooks. This is what we did in our workflow file with configuring it to run on a push or a pull request event. You can also configure it to run at a scheduled time with scheduled events or when an event outside of GitHub occurs with `repository_dispatch`.
+
+## Obvious approval
 
 Now for a review‑type workflow, we want to engage with human interaction and reviews.
 
@@ -161,9 +163,68 @@ As a side note, if we have another action that applies, let's say, a needs revie
 
 ```bash
 git add .
-git commit 
+git commit -m "added label when approved action"
 ```
 
+This action does is apply a new label based on a number of approving reviews. Anyone can still merge in this pull request if they want, which isn't ideal if we want an approval before merging. 
 
+So with this action we have satisfied another checklist item of applying a way to see an **obvious approval on a pull request**. 
 
+But we now want to extend this functionality by adding a way to prevent a premature merge without an approval. And we can do this by checking another item off of our checklist with **adding branch protections**.
 
+## Create Branch protection
+
+> By default, any pull request could be merged at any time unless the head branch is in conflict with the base branch.
+
+You can choose to enforce restrictions on how a pull request is merged into your repository by using branch protections. Now we've seen how we can automate some pull request features related to approvals, but we can use these branch protections to enforce required status checks or approvals to occur before a merge can be allowed. 
+
+Navigating back to our GitHub repository, let's add some branch protections to our main branch. We can do this by navigating to the **Settings tab** at the top and under the **Branches** option in the left sidebar and click on **Add rule** under the branch protection rules. 
+
+* Settings tab -> Branches -> Add Rule
+
+![add protection rule](assets/04-add-protection-rule.png)
+
+From here, we need to identify which branch we want to apply these branch protections to, so let's type the `main` branch.
+
+![branch protection pattern](assets/05-branch-protection-pattern.png)
+
+Next, we need to select which protections we want to include on this branch, so let's select **Require a pull request before merging**. This will require an approving review before the pull request can be allowed to merge. 
+
+And then let's check **Require status checks to pass before merging**. This branch protection will allow us to choose which checks are required to pass before the pull request can be allowed to merge. Now if an important test fails that is checked in this list, even if the pull request has an approving review, it won't be allowed to merge. So let's check our build and then the test checks:
+
+* build
+* test
+* test-integration
+
+![protection rules selection](assets/06-protection-rules-selection.png)
+
+Let's now click **Create** at the bottom of this page, and you may be prompted to input your GitHub password as authentication to repository settings that are being changed.
+
+From here, let's navigate back to our pull request from the Pull requests tab. And scrolling down to the bottom, we now see that we have a red Merging is blocked message on our pull request.
+
+![blocking policies](assets/07-blocking-policies.png)
+
+This is a result from our new branch protections because this pull request now requires an approving review. But as admin access to this repository, I can actually bypass this and merge it in without a review. And in your case, unless you have someone that will review this pull request, you will need to either remove the branch protection or just use those admin powers to force‑merge this pull request.
+
+* Ask a lemon member to review - **Nasdan**
+
+But first, let's create a label with the name approved so that our workflow file can work. 
+
+We can do this by going to the `Labels` section on the right and scroll down to the Edit labels option at the bottom. Let's now click on the **New label** button on the right and input approved and then choose a color. You can enter in a specific color hue or filter through a random selection of colors until you find the color that works. For our approval, let's look for some sort of a green color. 
+
+* **Pull requests tab**
+    - **Labels**
+        - **New Label**
+            - Label name: `approved`
+            - Color: `green`
+
+![label selection](assets/08-label-selection.png)
+![label creation](assets/09-label-creation.png)
+
+Returning back to our pull request, we should be all set for a team member or a contributor of this project to review our pull request. 
+
+I've asked my good friend `Nasdan` to approve these changes.  
+
+Now when `Nasdan` approves this pull request, we should see our github‑actions bot automatically apply the approved label to this pull request, and a red message to block the pull request from our branch protection should now be lifted, and we should see all green checks and the approval to now merge. 
+
+With these latest updates, we have now satisfied the remaining two checklist items with the addition of branch protections to our master branch and the check for required reviews before merging.

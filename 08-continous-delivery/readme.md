@@ -141,7 +141,7 @@ Now we need to build the image before push it to Docker registry we can do this 
 
 Ok, almost done, there are prebaked actions to authenticate and push Docker images, but in this case we're going to use a run command. But first of all I need to create a new secret to authenticate my self against Docker Hub.
 
-> TODO: Add image
+[adding secret](assets/01-adding-secret.png)
 
 ```diff
 -   - name: Build the Docker Image
@@ -162,6 +162,14 @@ run: |
   image=$DOCKER_USER/$DOCKER_REPOSITORY:$(date +%s)
   docker build . --file Dockerfile.workflow --tag $image
   docker push $image
+```
+
+
+Push the new changes:
+
+```bash
+git add .
+git commit -m "added push docker image step"
 ```
 
 ## Reference

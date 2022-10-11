@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const helpers = require('./helpers');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = merge(
   {},
@@ -37,6 +38,10 @@ module.exports = merge(
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'index.html',
+      }),
+      new Dotenv({
+        allowEmptyValues: true,
+        systemvars: true, 
       }),
     ],
   }

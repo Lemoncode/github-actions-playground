@@ -38,4 +38,4 @@ jobs:
         path: hangman-api/dist/
     - name: Build the Docker image
       working-directory: ./hangman-api
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile.workflow --tag my-image-name:$(date +%s)

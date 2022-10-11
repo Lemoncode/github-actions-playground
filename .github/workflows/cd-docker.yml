@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image API
 
 on:
   workflow_dispatch:
@@ -36,6 +36,15 @@ jobs:
       with:
         name: build-code
         path: hangman-api/dist/
-    - name: Build the Docker image
+    - name: Build and Push Docker Image
       working-directory: ./hangman-api
-      run: docker build . --file Dockerfile.workflow --tag my-image-name:$(date +%s)
+      env:
+        DOCKER_USER: "jaimesalas"
+        DOCKER_REPOSITORY: "hangman-api"
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: | 
+        echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+        image=$DOCKER_USER/$DOCKER_REPOSITORY:$(date +%s)
+        docker build . --file Dockerfile.workflow --tag $image
+        docker push $image
+    

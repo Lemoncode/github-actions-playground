@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: .github/workflows/reusable-node-build.yml
+    uses: ./.github/workflows/reusable-node-build.yml
     with:
       node-version: 16
       working-directory: hangman-api

@@ -97,13 +97,37 @@ Now for a review‑type workflow, we want to engage with human interaction and r
 
 ```yml
 name: Team approval workflow
-
+# diff #
 on:
   - pull_request_review
+# diff #
 ```
 
 ```bash
 git add .
 git commit -m "triggers on pull request review"
 git push
+```
+
+> Our approval workflow will now initiate when a pull request review occurs.
+
+What we're going to do next is add an approved label when the PR is approved. Now let's add a new job:
+
+* Update `apprval-workflow.yml`
+
+```yml
+name: Team approval workflow
+
+on:
+  - pull_request_review
+# diff #
+jobs:
+  label-when-approved:
+    runs-on: ubuntu-latest
+# diff #
+```
+
+```bash
+git add .
+git commit -m "added trigger event"
 ```

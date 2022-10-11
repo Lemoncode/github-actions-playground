@@ -85,3 +85,25 @@ Now it's worth mentioning that after a period of time, this pull request prompt 
     * PR body - *"This pull request adds an approval workflow to the project"*
     * Create PR
 
+Notice that although we don't have anything other than a name in our workflow file, our CI checks are running from our previous workflow. 
+
+Since we merged those changes to our main branch and, in our previous workflow, our event triggers are a push to main or a pull request into main, our CI checks will run, which is why we're seeing them here. So this is running exactly as expected.
+
+Workflows can be configured to run by using events from GitHub, such as event webhooks. This is what we did in our workflow file with configuring it to run on a push or a pull request event. You can also configure it to run at a scheduled time with scheduled events or when an event outside of GitHub occurs with `repository_dispatch`.
+
+Now for a review‑type workflow, we want to engage with human interaction and reviews.
+
+* Update `apprval-workflow.yml`
+
+```yml
+name: Team approval workflow
+
+on:
+  - pull_request_review
+```
+
+```bash
+git add .
+git commit -m "triggers on pull request review"
+git push
+```

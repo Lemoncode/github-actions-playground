@@ -16,7 +16,7 @@ export default {
     poolMax: +process.env.DATABASE_POOL_MAX!,
   },
   app: {
-    port: + process.env.PORT! || 3000,
+    port: +process.env.PORT! || 3000,
     host: process.env.HOST || '0.0.0.0'
   }
 };

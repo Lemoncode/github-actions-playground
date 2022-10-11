@@ -6,6 +6,7 @@
   "scripts": {
     "start": "by-node-env",
     "start:development": "nodemon",
+    "start:production": "node --enable-source-maps app.js",
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "pretest": "jest --clearCache",

@@ -172,6 +172,8 @@ git add .
 git commit -m "added push docker image step"
 ```
 
+And fire the workflow from GitHub site.
+
 ## Reference
 
 * [What is Continous Delivery?](https://aws.amazon.com/devops/continuous-delivery/)

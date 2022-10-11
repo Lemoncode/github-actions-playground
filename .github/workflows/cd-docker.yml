@@ -1,4 +1,4 @@
-name: Docker Image API
+name: Docker Image hangman API CD
 
 on:
   workflow_dispatch:

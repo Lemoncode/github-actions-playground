@@ -115,3 +115,15 @@ docker run -d -p 3001:3000 jaimesalas/hangman-api
 ```bash
 docker run -d -p 8081:8080 -e API_URL=http://localhost:3001 jaimesalas/hangman-front
 ```
+
+## Running e2e
+
+```bash
+docker run -d -p 3001:3000 jaimesalas/hangman-api
+docker run -d -p 8080:8080 -e API_URL=http://localhost:3001 jaimesalas/hangman-front
+```
+
+```bash
+cd hangman-e2e/e2e
+npm run open
+```

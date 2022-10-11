@@ -172,7 +172,16 @@ git add .
 git commit -m "added push docker image step"
 ```
 
-And fire the workflow from GitHub site.
+And fire the workflow from GitHub site. If everything works we must see something like this: 
+
+```
+ ---> 12c19641de84
+Successfully built 12c19641de84
+Successfully tagged jaimesalas/hangman-api:1665501807
+The push refers to repository [docker.io/jaimesalas/hangman-api]
+```
+
+And visit Docker Hub to find out the uploaded image
 
 ## Reference
 

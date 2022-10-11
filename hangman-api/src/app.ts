@@ -1,4 +1,7 @@
-// TODO: Add express to solution
-// TODO: Add supertest tests
-// TODO: Add supertest tests
-console.log('app');
+import { initServer } from './server';
+
+if(process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
+}
+
+initServer();

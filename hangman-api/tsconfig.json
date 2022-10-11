@@ -4,8 +4,12 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": true,
     "strict": true,
-    "target": "es2019"
-  }
+    "sourceMap": true,
+    "target": "es2019",
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
 }

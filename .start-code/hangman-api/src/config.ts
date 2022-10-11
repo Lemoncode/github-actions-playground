@@ -1,8 +1,6 @@
-import { config } from 'dotenv';
-
-config({
-  path: '.env',
-});
+if(process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 
 export default {
   database: {

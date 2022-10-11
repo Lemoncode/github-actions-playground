@@ -3,6 +3,7 @@
 ## Environment variables
 
 ```ini
+# DATA_BASE
 DATA_BASE_ACTIVE=false
 DATABASE_PORT=5432
 DATABASE_HOST=localhost
@@ -11,6 +12,9 @@ DATABASE_USER=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_POOL_MIN=2
 DATABASE_POOL_MAX=10
+# HTTP_SERVER
+PORT=3000
+HOST=0.0.0.0
 ```
 
 ## Start Up Database Locally

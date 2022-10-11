@@ -1,9 +1,6 @@
-import { config } from 'dotenv';
-
-// TODO: Use connection string
-config({
-  path: '.env',
-});
+if(process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 
 export default {
   database: {
@@ -16,4 +13,8 @@ export default {
     poolMin: +process.env.DATABASE_POOL_MIN!,
     poolMax: +process.env.DATABASE_POOL_MAX!,
   },
+  app: {
+    port: +process.env.PORT! || 3000,
+    host: process.env.HOST || '0.0.0.0'
+  }
 };

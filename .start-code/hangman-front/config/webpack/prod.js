@@ -4,7 +4,7 @@ const base = require('./base');
 module.exports = merge(base, {
   mode: 'production',
   output: {
-    filename: 'js/[name].[chunkhash].js',
+    filename: '[name].[chunkhash].js',
     assetModuleFilename: 'images/[hash][ext][query]',
   },
   optimization: {

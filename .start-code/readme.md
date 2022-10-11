@@ -95,3 +95,23 @@ DATABASE_POOL_MIN=2 \
 DATABASE_POOL_MAX=10 \
 npm run test:integration
 ```
+
+## Running API and Front as containers
+
+```bash
+cd hangman-api 
+docker build -t jaimesalas/hangman-api .
+```
+
+```bash
+cd hangman-front 
+docker build -t jaimesalas/hangman-front .
+```
+
+```bash
+docker run -d -p 3001:3000 jaimesalas/hangman-api
+```
+
+```bash
+docker run -d -p 8081:8080 -e API_URL=http://localhost:3001 jaimesalas/hangman-front
+```

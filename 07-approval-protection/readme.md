@@ -8,6 +8,25 @@ These last three remaining items don't really belong in a code, build, and test 
 
 However, configuration as code is important, and improving how you automate and version control your configurations is going to be key in how you are able to scale and innovate moving forward. So because of this, GitHub Actions allow you to run multiple workflows for different event triggers, which allow you to create separate workflow files within the same project repository. So let's create a new approval workflow to satisfy the remaining items on our list.
 
+Let's start by updating the `ci.yml` trigger events
+
+```yml
+name: CI 
+
+on:
+  push:
+    branches: [ main ]
+    
+  pull_request:
+    branches: [ main ]
+```
+
+```bash
+git add .
+git commit -m "back to original triggers"
+git push
+```
+
 Let's start by creating a new branch
 
 ```bash
@@ -32,3 +51,37 @@ git add .
 git commit -m "added automation notes"
 git push
 ```
+
+Once the push is completed, let's navigate back to the Code tab of our repository on GitHub. 
+
+GitHub now notices that we've recently pushed up a new branch to our project with a helpful prompt to then create a pull request as a common next step. But for now, let's hold off on creating a pull request from this branch and let's add a workflow file to it. 
+
+The file that is being introduced to this branch is an `automation.md` file. This is just a markdown file with the list of the items that we need to be checked off. We haven't added a new workflow file to this branch as of yet, so let's do that right now. 
+
+Even though we just pushed up a new branch, we're still on the default main branch. 
+
+So let's switch to the **team‑workflow branch** on GitHub by clicking on the branch drop‑down button below the Code tab and selecting our **team‑workflow branch**. 
+
+> TODO: Add image 01
+
+Now that we're working on our new branch, let's add a new workflow file by navigating to the `.github/workflows` folder and creating a new file called `approval‑workflow.yml`. 
+
+* Create `.github/workflows/approval-workflow.yml`
+
+> TODO: Add image 02
+
+* Submit the file from GitHub site.
+
+> TODO: Add image 03
+
+And returning to the Code tab, let's click on the prompt to create the pull request from this branch. 
+
+* Create a new pull request from tab code
+
+Now it's worth mentioning that after a period of time, this pull request prompt will disappear so it doesn't persist if you intend to push up a branch, but not open up a pull request right away. So if the prompt doesn't show or it disappears, you can always navigate to the Pull requests tab and then create your pull requests from there. 
+
+* Let's give our pull request with:
+    * PR title - *"Approval Workflow"*
+    * PR body - *"This pull request adds an approval workflow to the project"*
+    * Create PR
+

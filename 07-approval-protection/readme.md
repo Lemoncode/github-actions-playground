@@ -131,3 +131,39 @@ jobs:
 git add .
 git commit -m "added trigger event"
 ```
+
+Let's use a community‑created action for a next step. So let's navigate to the GitHub Marketplace at [github.com/marketplace](https://github.com/marketplace). 
+
+From here, we can search for community actions from the search bar or by narrowing our search by selecting actions on the left sidebar and then searching for the action that you want. Let's search for the action *label approved pull requests*.
+
+* [Label approved pull request](https://github.com/marketplace/actions/label-approved-pull-requests)
+
+This action will apply a label of our choosing to a pull request that reaches a specified number of approvals. With the use of this action, when a pull request is approved, it will automate the process of applying this label to the pull request. And at the top of this page, you can copy the necessary code snippet on the latest version of this action that we will then need to add to our workflow file. 
+
+* Update `.github/workflows/approval-workflow.yml`
+
+```yml
+jobs:
+  label-when-approved:
+    runs-on: ubuntu-latest
+    # diff #
+    steps:
+      - name: Label approved pull requests
+        uses: abinoda/label-when-approved-action@1.0.5
+        env: 
+          APPROVALS: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ADD_LABEL: "approved"
+    # diff #     
+```
+
+As a side note, if we have another action that applies, let's say, a needs review label to a new pull request, we could add another environment variable, such as `remove_label` as the key and then the name of the label as the value that would be removed when this action is validated. Now let's commit these changes.
+
+```bash
+git add .
+git commit 
+```
+
+
+
+

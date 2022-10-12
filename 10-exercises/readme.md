@@ -24,3 +24,6 @@ Create a workflow that triggers as you wish that runs e2e tests using [Docker Co
 curl https://type.fit/api/quotes
 ```
 
+* [actions/javascript-action](https://github.com/actions/javascript-action)
+* [https://github.com/actions/typescript-action](https://github.com/actions/typescript-action)
+

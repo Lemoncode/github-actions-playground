@@ -1,6 +1,6 @@
 # Multiple Environments
 
-Some times our code must runon different target versions. GitHub Actions has a feature that is pretty handy for this kind of situations `matrix strategy`.
+Some times our code must run on different target versions. GitHub Actions has a feature that is pretty handy for this kind of situations `matrix strategy`.
 
 > A `matrix strategy` lets you use variables in a single job definition to automatically create multiple job runs that are based on the combinations of the variables. For example, you can use a matrix strategy to test your code in multiple versions of a language or on multiple operating systems.
 

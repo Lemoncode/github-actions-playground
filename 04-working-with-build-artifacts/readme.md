@@ -1,6 +1,6 @@
 # Working with Build Artifacts
 
-In this demo we're going to use build artifacts to reuse data, that is laready done by other job on workflow.
+In this demo we're going to use build artifacts to reuse data, that is already done by other job on workflow.
 
 If we have a look in our current workflow, we're executing the build and test job, on parallel, this is the default behaviour forjobs. Because of this we're stalling dependencies twice, let's try to reuse these dependencies on test job.
 

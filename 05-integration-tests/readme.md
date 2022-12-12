@@ -53,7 +53,7 @@ services:
     
 ```
 
-Here we're decalring the database service, because we're feeding `POSTGRES_DB: hangman_db`, the default database that will be created will be `hangman_db` instead of `postgres`, that's ok for us.
+Here we're declaring the database service, because we're feeding `POSTGRES_DB: hangman_db`, the default database that will be created will be `hangman_db` instead of `postgres`, that's ok for us.
 
 Now in order to make that our tests can run, we need the expected schemas, recall we have migrations in this project, lets create another Dockerfile for that specific purpose:
 

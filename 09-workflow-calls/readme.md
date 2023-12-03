@@ -84,11 +84,9 @@ on:
         required: true
 ```
 
-
 2. In the reusable workflow, reference the input or secret that you defined in the on key in the previous step.
 
 > Note: If the secrets are inherited by using secrets: inherit in the calling workflow, you can reference them even if they are not explicitly defined in the on key. For more information, see ["Workflow syntax for GitHub Actions."](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecretsinherit)
-
 
 ```yaml
 jobs:
@@ -142,7 +140,7 @@ You reference reusable workflow files using on of the following syntaxes:
 * `{owner}/{repo}/.github/workflows/{filename}@{ref}` - reusable workflows on public repositories
 * `./.github/workflows/{filename}` for reusable workflows in the same repository.
 
-`{ref}` can be a SHA, a release tag, or a branch name. Using the commit SHA is the safest for stability and security. 
+`{ref}` can be a SHA, a release tag, or a branch name. Using the commit SHA is the safest for stability and security.
 
 You can call multiple workflows, referencing each in a separate job.
 
@@ -159,4 +157,3 @@ jobs:
 ## Demo: Creating a reusable workflow
 
 [Demo: Creating a reusable workflow](01-creating-reusable-workflow/readme.md)
-

@@ -1,10 +1,10 @@
 # Integration Tests
 
-If we have a look into our code we notice that our integartion tests, are not running.
+If we have a look into our code, we notice that our integration tests are not running.
 
-A fair question is how can we implement this? Because we have to deal with the database dependency to run this kind of tests. One quick option that could work on our machines and on the GitHub Workflow machine is use `docker-compose`. Yes, `Docker` and `Docker Compose` are already installed, so let's go ahead.
+A fair question is how can we implement this. Because we have to deal with the database dependency to run this kind of tests. One quick option that could work on our machines and on the GitHub Workflow machine is to use `docker-compose`. Yes, `Docker` and `Docker Compose` are already installed, so let's go ahead.
 
-First we are going to implement this loacally. `Docker Compose`, deals with services, and services are containers that are going to be located on private `Docker Network`, so our first step will be create a `Docker Image` that contains everything to run these tests.
+First we are going to implement this locally. `Docker Compose`, deals with services, and services are containers that are going to be located on private `Docker Network`, so our first step will be create a `Docker Image` that contains everything to run these tests.
 
 * Create `hangman-api/Dockerfile.test-integration`
 
@@ -26,12 +26,11 @@ COPY ./tsconfig.json ./tsconfig.json
 RUN npm ci 
 
 CMD [ "npm", "run", "test:integration" ]
-
 ```
 
 Now we can go ahead and set up the Docker Compose that will use this. Let's create `test-integration.yml`.
 
-> We're using a meaning full name here, instead the default one.
+> We're using a meaningful name here, instead the default one.
 
 ```yml
 version: "3.9"
@@ -55,12 +54,12 @@ services:
 
 Here we're declaring the database service, because we're feeding `POSTGRES_DB: hangman_db`, the default database that will be created will be `hangman_db` instead of `postgres`, that's ok for us.
 
-Now in order to make that our tests can run, we need the expected schemas, recall we have migrations in this project, lets create another Dockerfile for that specific purpose:
+Now in order to make that our tests can run, we need the expected schemas. Recall that we have migrations in this project, so let's create another Dockerfile for that specific purpose:
 
 * Create `Dockerfile.migrations`
 
 ```Dockerfile
-FROM node:16-buster
+FROM node:16-bullseye
 
 WORKDIR /opt/app
 
@@ -73,7 +72,7 @@ RUN npm init -y
 RUN npm install knex pg dotenv
 ```
 
-For simplicity we're creating the manifest file in line, this is ok, here, because we're on demo time, but be aware that we could easily misalign dependencies.
+For simplicity we're creating the manifest file in line (last command in the above Dockerfile). This is ok here, because we're on demo time, but be aware that we could easily misalign dependencies.
 
 Ok good, now we can add a new service to initialize our schemas:
 
@@ -130,14 +129,14 @@ docker compose -f test-integration.yml up --force-recreate --exit-code-from buil
 
 If we run this, we will find that our service `build-db-relationships` is unable to find the postgres database:
 
-```
+```output
 build-db-relationships  | Using environment: development
 build-db-relationships  | getaddrinfo ENOTFOUND postgres
 build-db-relationships  | Error: getaddrinfo ENOTFOUND postgres
 build-db-relationships  |     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)
 ```
 
-This is happening because the container is ready, but the database server that is hosting no. Let's fix it by addinh [wait for it](https://github.com/vishnubob/wait-for-it). 
+This is happening because the container is ready, but the database server is not. Let's fix it by adding [wait for it](https://github.com/vishnubob/wait-for-it).
 
 * Copy the file on root project.
 
@@ -160,9 +159,9 @@ COPY ./db/migrations ./db/migrations
 
 COPY ./knexfile.js ./knexfile.js
 
-+COPY ./wait-for-it.sh ./wait-for-it.sh
++ COPY ./wait-for-it.sh ./wait-for-it.sh
 
-+RUN chmod +x wait-for-it.sh
++ RUN chmod +x wait-for-it.sh
 
 RUN npm init -y 
 
@@ -196,7 +195,7 @@ Let's give it a try:
 docker compose -f test-integration.yml up --force-recreate --exit-code-from build-db-relationships
 ```
 
-Cool now works, for last. Now the last part of the puzzle:
+Cool, now it works, for last. Now the last part of the puzzle:
 
 ```bash
 docker compose -f test-integration.yml down --remove-orphans -v --rmi local
@@ -231,7 +230,7 @@ docker compose -f test-integration.yml down --remove-orphans -v --rmi local
 docker compose -f test-integration.yml run test-integration
 ```
 
-```
+```output
 Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
 
 > hangman-api@1.0.0 pretest:integration
@@ -245,7 +244,7 @@ Cleared /tmp/jest_0
  PASS  src/dals/games/game.dal.test.ts (8.089 s)
   game.dal
     getGames
-      ✓ resturns the games related to a player (408 ms)
+      ✓ returns the games related to a player (408 ms)
 
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
@@ -254,4 +253,4 @@ Time:        8.676 s
 Ran all test suites.
 ```
 
-> Exercise: Update CI pipeline to run test integration using docker compose 
+> Exercise: Update CI pipeline to run test integration using docker compose.

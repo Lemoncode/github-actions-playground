@@ -7,8 +7,8 @@ In our case we're going to set up CI for a Node.js project. Let's start by creat
 * Create `.github/workflows/ci.yml`
 
 ```bash
-mkdir -p .gitub/workflows
-touch .gitub/workflows/ci.yml
+mkdir -p .github/workflows
+touch .github/workflows/ci.yml
 ```
 
 ```yaml
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: inspect
+      - name: Inspect machine
         run: |
           ls -al
           whoami
@@ -38,10 +38,10 @@ jobs:
 Let's commit this file to a new branch:
 
 ```bash
-git checkout -b added-basic-workflow
-git push -u origin added-basic-workflow
+git checkout -b add-basic-workflow
+git push -u origin add-basic-workflow
 git add .
-git commit -m "added ci file"
+git commit -m "added ci workflow file"
 git push
 ```
 
@@ -49,11 +49,11 @@ Now if we move to GitHub web site, we will find a message to create a new pull r
 
 We can see that a new action starts, and by default is going to check if CI process has succeded before allow us to merge this branch into main branch.
 
-> The workflow is triggered by `pull_request` event. 
+> The workflow is triggered by `pull_request` event.
 
 If we open the action job audit from website and have a look into the steps, we can notice a couple of things:
 
-```
+```bash
 drwxr-xr-x 2 runner docker 4096 Oct  9 18:03 .
 drwxr-xr-x 3 runner docker 4096 Oct  9 18:03 ..
 runner
@@ -61,11 +61,11 @@ runner
 v16.17.1
 ```
 
-* Node is already installed
-* Our user is runner
 * There's no contents inside the current directory.
+* Our user is runner
+* Node is already installed
 
-Let's solve this by getting the code into workflow context.
+Now, let's get the code into workflow context.
 
 * Update `ci.yml`
 
@@ -83,7 +83,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-+     - uses: actions/checkout@v3
++     - name: Checkout # This field is optional
++     - uses: actions/checkout@v4
       - name: inspect
         run: |
           ls -al
@@ -93,7 +94,7 @@ jobs:
 
 ```
 
-Recall that on job steps we can use and action or run a command, here we're using an action `actions/checkout@v3`, that no needs further configuration.
+Recall that on job steps we can use an action or run a command. Here we're using an action `actions/checkout@v4` that needs no further configuration.
 
 ```bash
 git add .
@@ -103,7 +104,7 @@ git push
 
 Now if we go back to the last action job, we will find out that our code has been download:
 
-```
+```bash
 total 44
 drwxr-xr-x 11 runner docker 4096 Oct  9 18:17 .
 drwxr-xr-x  3 runner docker 4096 Oct  9 18:17 ..
@@ -121,14 +122,13 @@ runner
 v16.17.1
 ```
 
-Really nice, out target is that this workflow implements the CI process.
-
+Really nice, but our target is that this workflow implements the CI process.
 
 > **Continous Integration (CI)** - The process of automating the build and testing of changes when a commit is pushed to a branch.
 
-Lets remove the current job and add new one that builds and test our code:
+Lets remove the current job and add new one that builds and tests our code:
 
-````diff
+```diff
 name: CI 
 
 on:
@@ -142,7 +142,7 @@ jobs:
 -     runs-on: ubuntu-latest
 
 -     steps:
--       - uses: actions/checkout@v3
+-       - uses: actions/checkout@v4
 -       - name: inspect
 -         run: |
 -           ls -al
@@ -150,7 +150,7 @@ jobs:
 -           pwd
 -           node -v
 
-````
+```
 
 ```yaml
 name: CI 
@@ -167,11 +167,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: build and test
         working-directory: ./hangman-api
         run: |
-          npm ci 
+          npm ci
           npm run build --if-present
           ls ./dist
           npm test
@@ -180,12 +180,11 @@ jobs:
 
 ```bash
 git add .
-git commit -m "added build test step"
+git commit -m "added build and test step"
 git push
 ```
 
-We can check the results in actions. For last, because we're going to add more projects to current solution, seems a good idea that the workflow only starts if the contents of api solution are updated.
-
+We can check the results in actions (GitHub website). Since we're going to add more projects to the current solution, it seems a good idea that the workflow only starts if the contents of api project are updated.
 
 * Update `ci.yml`
 
@@ -205,7 +204,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: build and test
         working-directory: ./hangman-api
         run: |
@@ -218,4 +217,12 @@ jobs:
 
 * With `paths` we filter the directories that are able to trigger a new workflow.
 
-> Check the [filter pattern cheat sheet](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) for a better understanding
+> Check the [filter pattern cheat sheet](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet) for a better understanding.
+
+```bash
+git add .
+git commit -m "added path filter"
+git push
+```
+
+If we check again 'Actions' tab, we will not see a new trigger. Why? Because the latest changes did not modify `hangman-api` folder.

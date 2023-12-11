@@ -1,0 +1,18 @@
+name: Workflow to test the custom action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get_commodity_price:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get commodity price step
+        id: commodity_price
+        uses: jtrillo/get-commodity-price@v1.0.1
+        with:
+          commodity: silver
+      # Use the output from 'commodity_price' step
+      - name: Get the output price
+        run: echo "Price per ounce is ${{ steps.commodity_price.outputs.price }} USD"

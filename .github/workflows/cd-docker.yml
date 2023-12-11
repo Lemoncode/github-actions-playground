@@ -12,30 +12,28 @@ jobs:
     # runs-on: ubuntu-latest
 
     # steps:
-      # - uses: actions/checkout@v3
-      # - uses: actions/setup-node@v3
-      #   with: 
-      #     node-version: 16
-      #     cache: 'npm'
-      #     cache-dependency-path: hangman-api/package-lock.json
-      # - name: build
-      #   working-directory: ./hangman-api
-      #   run: |
-      #     npm ci 
-      #     npm run build --if-present
-      # - uses: actions/upload-artifact@v3 
-      #   with:
-      #     name: build-code
-      #     path: hangman-api/dist/
-
+    # - uses: actions/checkout@v4
+    # - uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 16
+    #     cache: 'npm'
+    #     cache-dependency-path: hangman-api/package-lock.json
+    # - name: build
+    #   working-directory: ./hangman-api
+    #   run: |
+    #     npm ci
+    #     npm run build --if-present
+    # - uses: actions/upload-artifact@v3
+    #   with:
+    #     name: build-code
+    #     path: hangman-api/dist/
 
   delivery:
-    
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/download-artifact@v3
       with:
         name: build-code
@@ -49,6 +47,6 @@ jobs:
       run: | 
         echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
         image=$DOCKER_USER/$DOCKER_REPOSITORY:$(date +%s)
-        docker build . --file Dockerfile.workflow --tag $image
+        docker build -t $image -f Dockerfile.workflow .
         docker push $image
     

@@ -40,17 +40,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build
         working-directory: ./hangman-api
         run: |
           npm ci 
           npm run build --if-present
       # diff #
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with: 
           name: dependencies
           path: hangman-api/node_modules/
+          include-hidden-files: true
       # diff #
 ```
 
@@ -66,32 +67,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build
         working-directory: ./hangman-api
         run: |
           npm ci 
           npm run build --if-present
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with: 
           name: dependencies
           path: hangman-api/node_modules/
+          include-hidden-files: true
 
   test:
     runs-on: ubuntu-latest
     needs: build
     
     steps: 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # diff
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v7
         with: 
           name: dependencies
           path: hangman-api/node_modules
-      # diff
+          include-hidden-files: true
       - name: test
         working-directory: ./hangman-api
-        run: npm test # npm ci is not needed here
+        run: |
+          chmod -R +x node_modules
+          npm test
+      # diff
 ```
 
 Let's push the changes done.
@@ -104,7 +109,9 @@ git push
 
 And trigger the workflow from project site.
 
-If we check the workflow, we will notice that is taking a long time to resolve the dependencies upload. This is not the way to manage this, let's try something different.
+**DEPRECATED.** ~~If we check the workflow, we will notice that is taking a long time to resolve the dependencies upload~~. **Both actions in version 4 improve significantly the performance. Check this article: <https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/>**.
+
+However, this approach is not the proper way to manage this, let's try something different: using the cache.
 
 * [Caching dependencies to speed up workflows](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)
 
@@ -116,8 +123,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-+     - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
++     - uses: actions/setup-node@v6
 +       with: 
 +         node-version: 16
 +         cache: 'npm'
@@ -127,27 +134,30 @@ jobs:
         run: |
           npm ci 
           npm run build --if-present
--     - uses: actions/upload-artifact@v3
+-     - uses: actions/upload-artifact@v6
 -       with: 
 -         name: dependencies
 -         path: hangman-api/node_modules/
+-         include-hidden-files: true
 
   test:
     runs-on: ubuntu-latest
     needs: build
 
     steps: 
-      - uses: actions/checkout@v4
--     - uses: actions/download-artifact@v3.0.0
+      - uses: actions/checkout@v6
+-     - uses: actions/download-artifact@v7
 -       with: 
 -         name: dependencies
 -         path: hangman-api/node_modules
-+     - uses: actions/setup-node@v4
+-         include-hidden-files: true
++     - uses: actions/setup-node@v6
 +       with:
 +         node-version: 16
       - name: test
         working-directory: ./hangman-api
         run: |
+-         chmod -R +x node_modules
 +         npm ci 
           npm test
 ```

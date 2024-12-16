@@ -254,3 +254,45 @@ Ran all test suites.
 ```
 
 > Exercise: Update CI pipeline to run test integration using docker compose.
+
+```yaml
+test-integration:
+    runs-on: ubuntu-latest
+    needs: test
+
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env: 
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: hangman_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node version
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+      - name: Running integration test
+        working-directory: ./hangman-api
+        env:
+          DATABASE_PORT: 5432
+          DATABASE_HOST: localhost
+          DATABASE_NAME: hangman_db
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_POOL_MIN: 2
+          DATABASE_POOL_MAX: 10
+        run: |
+          npm ci
+          npx knex migrate:latest --env development
+          npm run test:integration
+```

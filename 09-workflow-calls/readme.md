@@ -31,10 +31,10 @@ After you add a `workflow_call` trigger, you need to make sure that your reposit
 There are [limitations](https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations). Some of them are:
 
 * **You can't reference a reusable workflow that's in a private repository**. If you have a reusable workflow in a private repository, only other workflows in that private repository can use it.
+* **Reusable workflows can't be stacked on top of one another, but there is a limit**. You can connect a maximum of four levels of workflows - that is, the top-level caller workflow and up to three levels of reusable workflows. For example: caller-workflow.yml → called-workflow-1.yml → called-workflow-2.yml → called-workflow-3.yml. Loops in the workflow tree are not permitted. More info [here](https://docs.github.com/en/actions/sharing-automations/reusing-workflows#nesting-reusable-workflows)
+* **You can call a maximum of 20 unique reusable workflows from a single workflow file**. This limit includes nested/stacked reusable workflows.
 
-* **Reusable workflows can’t be stacked on top of one another**. You can only have a reusable workflow call another reusable workflow, but you can’t have it reference more than one.
-
-## Reusable workflows vs.composite actions
+## Reusable workflows vs composite actions
 
 When we launched reusable workflows, one of the first questions we got was around how they’re different from composite actions.
 

@@ -8,7 +8,7 @@ The previous solution for integration test works, but have some downsides.
   * Dockerfile.migrations
   * Dockerfile.test-integration
 
-This code is not related with our solution, is just there to solve the CI issue. Well is not the end of the world, but is thera another way that we can solve this? Let's introduce [Service Containers](https://docs.github.com/en/actions/using-containerized-services/about-service-containers)
+This code is not related with our solution, it is just there to solve the CI issue. Well, this is not the end of the world, but is there another way to execute the integration tests without adding these files? Let's introduce [Service Containers](https://docs.github.com/en/actions/using-containerized-services/about-service-containers)
 
 > **About service containers** - Service containers are Docker containers that provide a simple and portable way for you to host services that you might need to test or operate your application in a workflow. For example, your workflow might need to run integration tests that require access to a database and memory cache.
 
@@ -44,8 +44,8 @@ Now, before running the integration tests, we need to setup the schemas:
 
 ```yml
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
           with:
           node-version: 16
       - name: Create database relationships
@@ -71,7 +71,7 @@ git commit -m "added database relationships step"
 git push
 ```
 
-* Run the workflow manually from GiHub website.
+* Run the workflow manually from GitHub website.
 
 If everything goes right we must see and output as follows:
 
@@ -85,8 +85,8 @@ Ok let's rename and add the instructions to run our integration tests:
 
 ```diff
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 16
 -     - name: Create database relationships
@@ -137,4 +137,13 @@ Tests:       1 passed, 1 total
 Snapshots:   0 total
 Time:        3.519 s
 Ran all test suites.
+```
+
+* Before moving on, let's delete files added in the previous demo (`wait-for-it.sh`, `test-integration.yml`, `Dockerfile.migrations` and `Dockerfile.test-integration`) to verify that service containers approach does not need them.
+
+```bash
+rm wait-for-it.sh test-integration.yml Dockerfile.migrations Dockerfile.test-integration
+git add .
+git commit -m "Delete no longer required files to run the integration tests"
+git push
 ```

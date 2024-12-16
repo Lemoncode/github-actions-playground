@@ -5,9 +5,13 @@ inputs:
     description: 'Commodity (gold or silver)'
     required: true
     default: 'gold'
+  currency: # id of input
+    description: 'Currency (USD or EUR)'
+    required: true
+    default: 'USD'
 outputs:
   price: # id of output
     description: 'The current price of the select commodity'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'index.js'

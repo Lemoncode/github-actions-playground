@@ -29,8 +29,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with: 
           node-version: ${{ inputs.node-version }}
           cache: 'npm'
@@ -40,7 +40,7 @@ jobs:
         run: |
           npm ci 
           npm run build --if-present
-      - uses: actions/upload-artifact@v3 
+      - uses: actions/upload-artifact@v6
         with:
           name: build-code
           path: ${{ inputs.working-directory }}/dist/
@@ -64,8 +64,8 @@ jobs:
 -     runs-on: ubuntu-latest
 
 -     steps:
--       - uses: actions/checkout@v4
--       - uses: actions/setup-node@v4
+-       - uses: actions/checkout@v6
+-       - uses: actions/setup-node@v6
 -         with: 
 -           node-version: 16
 -           cache: 'npm'
@@ -75,7 +75,7 @@ jobs:
 -           run: |
 -             npm ci 
 -             npm run build --if-present
--         - uses: actions/upload-artifact@v3 
+-         - uses: actions/upload-artifact@v6
 -           with:
 -             name: build-code
 -             path: hangman-api/dist/

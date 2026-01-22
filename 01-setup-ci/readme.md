@@ -31,8 +31,6 @@ jobs:
           whoami
           pwd
           node -v
-
-
 ```
 
 Let's commit this file to a new branch:
@@ -84,7 +82,7 @@ jobs:
 
     steps:
 +     - name: Checkout # This field is optional
-+     - uses: actions/checkout@v4
++     - uses: actions/checkout@v6
       - name: inspect
         run: |
           ls -al
@@ -94,7 +92,7 @@ jobs:
 
 ```
 
-Recall that on job steps we can use an action or run a command. Here we're using an action `actions/checkout@v4` that needs no further configuration.
+Recall that on job steps we can use an action or run a command. Here we're using an action `actions/checkout@v6` that needs no further configuration.
 
 ```bash
 git add .
@@ -142,14 +140,13 @@ jobs:
 -     runs-on: ubuntu-latest
 
 -     steps:
--       - uses: actions/checkout@v4
+-       - uses: actions/checkout@v6
 -       - name: inspect
 -         run: |
 -           ls -al
 -           whoami
 -           pwd
 -           node -v
-
 ```
 
 ```yaml
@@ -167,7 +164,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build and test
         working-directory: ./hangman-api
         run: |
@@ -204,15 +201,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build and test
         working-directory: ./hangman-api
         run: |
           npm ci 
           npm run build --if-present
-          ls ./dist
           npm test
-
 ```
 
 * With `paths` we filter the directories that are able to trigger a new workflow.

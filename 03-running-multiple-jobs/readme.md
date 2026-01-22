@@ -44,9 +44,9 @@ jobs:
 -   runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 -     - name: Setup Node.js environment
--       uses: actions/setup-node@v4
+-       uses: actions/setup-node@v6
 -       with:
 -         node-version: ${{ matrix.node-version }}
       - name: build and test
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 -     - name: build and test
 +     - name: build
         working-directory: ./hangman-api
@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build
         working-directory: ./hangman-api
         run: |
@@ -109,7 +109,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: test
         working-directory: ./hangman-api
         run: |
@@ -188,7 +188,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build
         working-directory: ./hangman-api
         run: |
@@ -199,7 +199,7 @@ jobs:
     runs-on: ubuntu-latest
 +   needs: build # If it depends on more than one, use an array
     steps: 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: test
         working-directory: ./hangman-api
         run: |

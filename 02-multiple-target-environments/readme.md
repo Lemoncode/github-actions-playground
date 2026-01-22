@@ -38,7 +38,7 @@ jobs:
         node-version: [16, 17, 18]
     # diff #
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: build and test
         working-directory: ./hangman-api
         run: |
@@ -60,10 +60,10 @@ jobs:
         node-version: [16, 17, 18]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         # diff #
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
         # diff #
@@ -132,9 +132,9 @@ jobs:
 +       os: [ubuntu-20.04, ubuntu-22.04]
 +   runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
       - name: build and test

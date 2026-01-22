@@ -13,6 +13,7 @@ jobs:
         uses: jtrillo/get-commodity-price@v1.0.1
         with:
           commodity: silver
+          currency: EUR
       # Use the output from 'commodity_price' step
       - name: Get the output price
-        run: echo "Price per ounce is ${{ steps.commodity_price.outputs.price }} USD"
+        run: echo "Price per ounce is ${{ steps.commodity_price.outputs.price }} ${{ steps.commodity_price.inputs.currency }}"

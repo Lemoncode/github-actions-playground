@@ -12,8 +12,8 @@ jobs:
     # runs-on: ubuntu-latest
 
     # steps:
-    # - uses: actions/checkout@v4
-    # - uses: actions/setup-node@v4
+    # - uses: actions/checkout@v6
+    # - uses: actions/setup-node@v6
     #   with:
     #     node-version: 16
     #     cache: 'npm'
@@ -23,7 +23,7 @@ jobs:
     #   run: |
     #     npm ci
     #     npm run build --if-present
-    # - uses: actions/upload-artifact@v3
+    # - uses: actions/upload-artifact@v6
     #   with:
     #     name: build-code
     #     path: hangman-api/dist/
@@ -33,15 +33,15 @@ jobs:
     needs: build
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/download-artifact@v3
+    - uses: actions/checkout@v6
+    - uses: actions/download-artifact@v7
       with:
         name: build-code
         path: hangman-api/dist/
     - name: Build and Push Docker Image
       working-directory: ./hangman-api
       env:
-        DOCKER_USER: "jaimesalas"
+        DOCKER_USER: "jaimesalas" # <your-docker-username>
         DOCKER_REPOSITORY: "hangman-api"
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: | 
